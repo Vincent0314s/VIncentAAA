@@ -4,23 +4,38 @@ using UnityEngine;
 
 public class Canon : MonoBehaviour
 {
-
     public LayerMask ground;
+    public Transform firePoint;
+    public GameObject bullet;
+
+    public int currentHP;
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
+        MouseLook();
+        Shot();
+    }
+
+    void MouseLook() {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray,out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
-            Vector3 newpos = new Vector3(hit.point.x,transform.position.y,hit.point.z);
+            Vector3 newpos = new Vector3(hit.point.x, transform.position.y, hit.point.z);
             transform.LookAt(newpos);
 
+        }
+    }
+
+    void Shot() {
+        if (Input.GetMouseButtonDown(0)) {
+            Instantiate(bullet,firePoint.position,firePoint.rotation);
         }
     }
 }
